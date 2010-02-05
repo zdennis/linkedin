@@ -26,6 +26,12 @@ module LinkedIn
     xml_reader :member_url_resources, :as => [UrlResource], :from => 'member-url-resources/member-url'
     xml_reader :api_standard_profile_request
     xml_reader :site_standard_profile_request, :as => ApiStandardProfileRequest
+    xml_reader :member_groups, :as => [Group], :from => "member-groups/member-group"
+    xml_reader :person_activities, :as => [Activity], :from => "person-activities/activity"
+    xml_reader :recommendations_given, :as => [Recommendation], :from => "recommendations-given/recommendation"
+    xml_reader :recommendee, :as => Profile, :from => "recommendations-given/recommendation/recommendee"
+    xml_reader :recommendations_received, :as => [Recommendation], :from => "recommendations-received/recommendation"
+    xml_reader :recommender, :as => Profile, :from => "recommendations-received/recommendation/recommender"    
     xml_reader :picture_url
 
   end

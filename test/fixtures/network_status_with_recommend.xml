@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<network>
+  <network-stats total="2">
+    <property key="degree-1-count">146</property>
+    <property key="degree-2-count">16998</property>
+  </network-stats>
+  <updates total="1" start="0" count="1">  
+    <update>
+      <timestamp>1264714582179</timestamp>
+      <update-type>PREC</update-type>
+      <update-content>
+        <person>
+          <id>gxsJUKiV00</id>
+          <first-name>Andy</first-name>
+          <last-name>Pohl</last-name>
+          <headline>Experienced Software Expert and Trainer</headline>
+          <api-standard-profile-request>
+            <url>http://api.linkedin.com/v1/people/gxsJUKiV00:full</url>
+            <headers total="1">
+              <http-header>
+                <name>x-li-auth-token</name>
+                <value>name:wgOF</value>
+              </http-header>
+            </headers>
+          </api-standard-profile-request>
+          <site-standard-profile-request>
+            <url>http://www.linkedin.com/profile?viewProfile=&amp;key=12913251&amp;authToken=wgOF&amp;authType=name&amp;trk=api*a101622*s101622*</url>
+          </site-standard-profile-request>
+          <recommendations-given total="1">
+            <recommendation>
+              <id>15993189</id>
+              <recommendation-type>EDU</recommendation-type>
+              <recommendation-snippet>I had the opportunity to work closely with David in a variety of settings.  In every experience I ha...</recommendation-snippet>
+              <recommendee>
+                <id>FE760VF7Zp</id>
+                <first-name>David</first-name>
+                <last-name>Bledsoe</last-name>
+                <headline>Vice President of Communications &amp; PR at Civitan International</headline>
+                <picture-url>http://media.linkedin.com/mpr/mprx/0__NWrbMhy4wznYTdsD1sibVP2VeCcOXds3vg7bRlpLSnF38OVftMpdUL-q6GHgiHnCBwaeyi6cM10</picture-url>
+                <api-standard-profile-request>
+                  <url>http://api.linkedin.com/v1/people/FE760VF7Zp:full</url>
+                  <headers total="1">
+                    <http-header>
+                      <name>x-li-auth-token</name>
+                      <value>name:KG5z</value>
+                    </http-header>
+                  </headers>
+                </api-standard-profile-request>
+                <site-standard-profile-request>
+                  <url>http://www.linkedin.com/profile?viewProfile=&amp;key=27456080&amp;authToken=KG5z&amp;authType=name&amp;trk=api*a101622*s101622*</url>
+                </site-standard-profile-request>
+              </recommendee>
+              <web-url>http://www.linkedin.com/profile?viewRecs=&amp;key=12913251</web-url>
+            </recommendation>
+          </recommendations-given>
+        </person>
+      </update-content>
+      <is-commentable>false</is-commentable>
+    </update>
+</updates>
+</network>

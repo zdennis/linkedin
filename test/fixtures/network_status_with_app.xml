@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<network>
+  <network-stats total="2">
+    <property key="degree-1-count">146</property>
+    <property key="degree-2-count">16998</property>
+  </network-stats>
+  <updates total="1" start="0" count="1">  
+    <update>
+      <timestamp>1264187626840</timestamp>
+      <update-key>APPM-47395626-ee3df62a*32727*348c8*387e9*3169a1b8fed11-3000</update-key>
+      <update-type>APPM</update-type>
+      <update-content>
+        <person>
+          <id>dWZ347hNKH</id>
+          <first-name>Greg</first-name>
+          <last-name>Mooney</last-name>
+          <headline>Network Security Engineer (Network Analyst IV) at Metavante</headline>
+          <api-standard-profile-request>
+            <url>http://api.linkedin.com/v1/people/dWZ347hNKH:full</url>
+            <headers total="1">
+              <http-header>
+                <name>x-li-auth-token</name>
+                <value>name:bOUg</value>
+              </http-header>
+            </headers>
+          </api-standard-profile-request>
+          <site-standard-profile-request>
+            <url>http://www.linkedin.com/profile?viewProfile=&amp;key=47395626&amp;authToken=bOUg&amp;authType=name&amp;trk=api*a101622*s101622*</url>
+          </site-standard-profile-request>
+          <person-activities count="1">
+            <activity>
+              <body>&lt;a href=&quot;http://www.linkedin.com//profile?viewProfile=&amp;key=47395626&quot;&gt;Greg Mooney&lt;/a&gt; is now using the new LinkedIn for iPhone application.  &lt;a href=&quot;http://www.linkedin.com//redirect?url=http%3A%2F%2Fwww%2Elinkedin%2Ecom%2Fiphone%3Ftrk%3DiPhone&amp;urlhash=tkUt&quot;&gt;Get it now &amp;#187;&lt;/a&gt;</body>
+              <app-id>3000</app-id>
+            </activity>
+          </person-activities>
+        </person>
+      </update-content>
+      <is-commentable>true</is-commentable>
+    </update>
+</updates>
+</network>

@@ -118,6 +118,25 @@ class ClientTest < Test::Unit::TestCase
       stats.updates.size.should == 4
       stats.updates.last.profile.headline.should == "Creative Director for Intridea"
     end
+    
+    should "retreive network updates with group" do
+      stub_get("/v1/people/~/network?type=JGRP", "network_status_with_group.xml")
+      stats = @linkedin.network_updates(:type => "JGRP")
+      stats.updates.first.profile.member_groups.first.name.should == "IT Atlanta"
+    end
+    
+    should "retreive network updates with app" do
+      stub_get("/v1/people/~/network?type=APPM", "network_status_with_app.xml")
+      stats = @linkedin.network_updates(:type => "APPM")
+      stats.updates.first.profile.person_activities.first.app_id.should == "3000"
+    end
+    
+    should "retreive network updates with recommendations" do
+      stub_get("/v1/people/~/network?type=PREC", "network_status_with_recommend.xml")
+      stats = @linkedin.network_updates(:type => "PREC")
+      stats.updates.first.profile.recommendations_given.first.recommendation_type == "EDU"
+      stats.updates.first.profile.recommendee.first_name == "David"
+    end
 
   end
   
