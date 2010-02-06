@@ -135,7 +135,7 @@ class ClientTest < Test::Unit::TestCase
       stub_get("/v1/people/~/network?type=PREC", "network_status_with_recommend.xml")
       stats = @linkedin.network_updates(:type => "PREC")
       stats.updates.first.profile.recommendations_given.first.recommendation_type == "EDU"
-      stats.updates.first.profile.recommendee.first_name == "David"
+      stats.updates.first.profile.recommendations_given.first.recommendee.first_name == "David"
     end
 
   end

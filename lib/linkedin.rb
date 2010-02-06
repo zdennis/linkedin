@@ -13,6 +13,9 @@ require 'crack'
 require 'cgi'
 
 module LinkedIn
+  autoload :Profile, File.join('linked_in', 'profile')
+  autoload :Recommendation, File.join('linked_in', 'recommendation')
+  
   class LinkedInError < StandardError
     attr_reader :data
 
@@ -77,8 +80,8 @@ require File.join(directory, 'linked_in', 'error')
 require File.join(directory, 'linked_in', 'location')
 require File.join(directory, 'linked_in', 'position')
 require File.join(directory, 'linked_in', 'group')
-require File.join(directory, 'linked_in', 'recommendation')
-require File.join(directory, 'linked_in', 'profile')
+# require File.join(directory, 'linked_in', 'recommendation')
+# require File.join(directory, 'linked_in', 'profile')
 require File.join(directory, 'linked_in', 'update')
 require File.join(directory, 'linked_in', 'network')
 require File.join(directory, 'linked_in', 'people')
