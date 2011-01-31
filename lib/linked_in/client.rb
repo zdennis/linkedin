@@ -118,6 +118,17 @@ module LinkedIn
       Birthdate.from_xml(get(path))
     end
 
+    def people_search(options={})
+      path = "/people-search"
+      options = {:keywords => options} if options.is_a?(String)
+      if options.is_a?(Hash) && fields=options.delete(:fields)
+        path +=":(people:(#{fields.map{|f| f.to_s.gsub("_","-")}.join(',')}))"
+      end
+      options = format_options_for_query(options)
+      
+      People.from_xml(get(to_uri(path, options)))
+    end
+
     def search(options={})
       path = "/people"
       options = {:keywords => options} if options.is_a?(String)
