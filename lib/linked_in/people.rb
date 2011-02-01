@@ -1,19 +1,17 @@
 module LinkedIn
-  class People < LinkedIn::Base
-
-    %w[total start count].each do |f|
-      define_method(f.to_sym) do
-        @doc.xpath('.//people').first["#{f.gsub(/_/,'-')}"].to_i
-      end
+  class People < Array
+    def self.from_xml(doc)
+      new(Nokogiri::XML(doc))
     end
 
-    def profiles
-      @array ||= begin
-        @array = []
-        @doc.xpath('//people').children.each do |profile|
-          @array << Profile.new(Nokogiri::XML(profile.to_xml)) unless profile.blank?
-        end
-        @array
+    def initialize(doc=nil)
+      add_profiles_from_xml doc if doc
+    end
+
+    def add_profiles_from_xml(doc)
+      doc = Nokogiri::XML(doc) if doc.is_a?(String)
+      doc.xpath('//people').children.each do |profile|
+        self << Profile.new(Nokogiri::XML(profile.to_xml)) unless profile.blank?
       end
     end
 

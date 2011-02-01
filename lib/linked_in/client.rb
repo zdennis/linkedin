@@ -1,5 +1,6 @@
 module LinkedIn
   class Client
+    include ::LinkedIn::UriHelpers
 
     # TODO: @ http://developer.linkedin.com/docs/DOC-1061 && / DOC-1014
     # add in client.get("/people/~:(im-accounts)")
@@ -49,13 +50,12 @@ module LinkedIn
       @atoken, @asecret = atoken, asecret
     end
 
-    def get(path, options={})
+    def get(path, options={})  
       path = "/v1#{path}"
       response = access_token.get(path, options)
       raise_errors(response)
       response.body
     end
-
 
     def post(path, body='', options={})
       path = "/v1#{path}"
@@ -121,12 +121,17 @@ module LinkedIn
     def people_search(options={})
       path = "/people-search"
       options = {:keywords => options} if options.is_a?(String)
-      if options.is_a?(Hash) && fields=options.delete(:fields)
+      if fields=options.delete(:fields)
+        fields = fields.map{ |f| f.to_s }.push("id").uniq
         path +=":(people:(#{fields.map{|f| f.to_s.gsub("_","-")}.join(',')}))"
       end
       options = format_options_for_query(options)
       
-      People.from_xml(get(to_uri(path, options)))
+      people = People.new
+      LinkedIn::Paginator.new(self, path, options).each do |page|
+        people.add_profiles_from_xml page
+      end
+      people
     end
 
     def search(options={})
@@ -134,7 +139,11 @@ module LinkedIn
       options = {:keywords => options} if options.is_a?(String)
       options = format_options_for_query(options)
 
-      People.from_xml(get(to_uri(path, options)))
+      people = People.new
+      LinkedIn::Paginator.new(self, path, options).each do |page|
+        people.add_profiles_from_xml page
+      end
+      people
     end
 
     def current_status
@@ -229,22 +238,6 @@ module LinkedIn
           opts[key.to_s.gsub("_","-")] = value
         end
         opts
-      end
-
-      def to_query(options)
-        options.inject([]) do |collection, opt|
-          collection << "#{opt[0]}=#{opt[1]}"
-          collection
-        end * '&'
-      end
-
-      def to_uri(path, options)
-        uri = URI.parse(path)
-
-        if options && options != {}
-          uri.query = to_query(options)
-        end
-        uri.to_s
       end
 
       def person_path(options)

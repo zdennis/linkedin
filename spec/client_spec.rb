@@ -106,32 +106,41 @@ describe LinkedIn::Client do
       cons.size.should == 146
       cons.last.last_name.should == 'Yuchnewicz'
     end
+    
+    describe "#people_search" do
+      before do
+        # page1 includes 2 results
+        stub_get "/v1/people-search?first-name=Joe&start=0&count=25", "people-page1.xml"
+        # page2 includes 2 results
+        stub_get "/v1/people-search?first-name=Joe&start=25&count=25", "people-page2.xml"
+      end
+      
+      it "finds and returns all people found, including paginating results" do
+        people = @linkedin.people_search(:first_name => "Joe")
+        people.count.should == 4
+      end
+    end
 
     it "perform a search by keyword" do
-      stub_get("/v1/people?keywords=github", "search.xml")
-      results = @linkedin.search(:keywords => 'github')
-      results.start.should == 0
-      results.count.should == 10
-      results.profiles.first.first_name.should == 'Zach'
-      results.profiles.first.last_name.should  == 'Inglis'
+      stub_get("/v1/people?start=0&count=25&keywords=github", "search.xml")
+      people = @linkedin.search(:keywords => 'github')
+      people.first.first_name.should == 'Zach'
+      people.first.last_name.should  == 'Inglis'
     end
 
     it "perform a search by multiple keywords" do
-      stub_get("/v1/people?keywords=ruby+rails", "search.xml")
-      results = @linkedin.search(:keywords => ["ruby", "rails"])
-      results.start.should == 0
-      results.count.should == 10
-      results.profiles.first.first_name.should == 'Zach'
-      results.profiles.first.last_name.should  == 'Inglis'
+      $c = true
+      stub_get("/v1/people?start=0&count=25&keywords=ruby+rails", "search.xml")
+      people = @linkedin.search(:keywords => ["ruby", "rails"])
+      people.first.first_name.should == 'Zach'
+      people.first.last_name.should  == 'Inglis'
     end
 
     it "perform a search by name" do
-      stub_get("/v1/people?name=Zach+Inglis", "search.xml")
-      results = @linkedin.search(:name => "Zach Inglis")
-      results.start.should == 0
-      results.count.should == 10
-      results.profiles.first.first_name.should == 'Zach'
-      results.profiles.first.last_name.should  == 'Inglis'
+      stub_get("/v1/people?start=0&count=25&name=Zach+Inglis", "search.xml")
+      people = @linkedin.search(:name => "Zach Inglis")
+      people.first.first_name.should == 'Zach'
+      people.first.last_name.should  == 'Inglis'
     end
 
     it "update a user's current status" do

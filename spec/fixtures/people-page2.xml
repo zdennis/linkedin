@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<people total="4" start="1" count="2">
+  <person>
+    <id>HbUhpG4QBG</id>
+    <first-name>Kyle</first-name>
+    <last-name>Neath</last-name>
+    <headline>Designer for GitHub</headline>
+    <location>
+      <name>San Francisco Bay Area</name>
+    </location>
+    <industry>Internet</industry>
+    <connections total="103" />
+    <num-recommenders>0</num-recommenders>
+    <distance>2</distance>
+    <positions total="1">
+      <position>
+        <id>91660562</id>
+        <title>Designer</title>
+        <summary>I make shiny things for http://github.com and other Logical Awesome offerings.</summary>
+        <start-date>
+          <year>2009</year>
+          <month>10</month>
+        </start-date>
+        <is-current>true</is-current>
+        <company>
+          <name>Logical Awesome</name>
+        </company>
+      </position>
+    </positions>
+    <api-standard-profile-request>
+      <url>http://api.linkedin.com/v1/people/HbUhpG4QBG:full</url>
+      <headers total="1">
+        <http-header>
+          <name>x-li-auth-token</name>
+          <value>OUT_OF_NETWORK:Tia4</value>
+        </http-header>
+      </headers>
+    </api-standard-profile-request>
+    <site-standard-profile-request>
+      <url>http://www.linkedin.com/profile?viewProfile=&amp;key=5178019&amp;authToken=Tia4&amp;authType=OUT_OF_NETWORK</url>
+    </site-standard-profile-request>
+  </person>
+  <person>
+    <id>YDJZU3B5E-</id>
+    <first-name>Rizwan</first-name>
+    <last-name>Reza</last-name>
+    <headline>Freelance Web Developer &amp; Interaction Designer</headline>
+    <location>
+      <name>Saudi Arabia</name>
+    </location>
+    <industry>Computer Software</industry>
+    <connections total="46" />
+    <num-recommenders>0</num-recommenders>
+    <distance>2</distance>
+    <positions total="1">
+      <position>
+        <id>83027482</id>
+        <title>Freelance Web Developer &amp; Interaction Designer</title>
+        <summary></summary>
+        <start-date>
+          <year>2009</year>
+          <month>8</month>
+        </start-date>
+        <is-current>true</is-current>
+        <company>
+          <name>Rizwan Reza</name>
+        </company>
+      </position>
+    </positions>
+    <api-standard-profile-request>
+      <url>http://api.linkedin.com/v1/people/YDJZU3B5E-:full</url>
+      <headers total="1">
+        <http-header>
+          <name>x-li-auth-token</name>
+          <value>OUT_OF_NETWORK:y2-T</value>
+        </http-header>
+      </headers>
+    </api-standard-profile-request>
+    <site-standard-profile-request>
+      <url>http://www.linkedin.com/profile?viewProfile=&amp;key=26468354&amp;authToken=y2-T&amp;authType=OUT_OF_NETWORK</url>
+    </site-standard-profile-request>
+  </person>
+</people>

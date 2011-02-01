@@ -5,6 +5,7 @@ Bundler.setup
 
 require 'rspec'
 require 'fakeweb'
+require 'ruby-debug'
 
 FakeWeb.allow_net_connect = false
 
@@ -21,10 +22,23 @@ def linkedin_url(url)
   url =~ /^http/ ? url : "https://api.linkedin.com#{url}"
 end
 
+
 def stub_get(url, filename, status=nil)
   options = {:body => fixture_file(filename)}
   options.merge!({:status => status}) unless status.nil?
-  FakeWeb.register_uri(:get, linkedin_url(url), options)
+  original_uri = URI.parse(url)
+  
+  # Register each permutation of the URL given its query parameters could
+  # change based on how ruby does lookup
+  if original_uri.query
+    params = original_uri.query.split("&")
+    params.each_permutation do |query_params|
+      uri = URI.parse original_uri.path + "?" + query_params.join("&")
+      FakeWeb.register_uri(:get, linkedin_url(uri.to_s), options)
+    end
+  else
+     FakeWeb.register_uri(:get, linkedin_url(original_uri.to_s), options)
+  end
 end
 
 def stub_post(url, filename)
@@ -40,3 +54,18 @@ def stub_delete(url, filename)
 
 end
 
+class Array
+  def each_permutation
+    if self.size == 1
+      yield self
+    else
+      self.each_index do |i|
+        tmp, e = self.dup, self[i]
+        tmp.delete_at(i)
+        tmp.each_permutation do |x|
+          yield e.to_a + x
+        end
+      end
+    end
+  end
+end
