@@ -1,30 +1,30 @@
-require 'test_helper'
+require 'spec_helper'
 
-class ClientTest < Test::Unit::TestCase
+describe LinkedIn::Client do
   context "when hitting the LinkedIn API" do
-    setup do
+    before do
       @linkedin = LinkedIn::Client.new('token', 'secret')
       consumer = OAuth::Consumer.new('token', 'secret', {:site => 'https://api.linkedin.com'})
-      @linkedin.stubs(:consumer).returns(consumer)
+      @linkedin.stub(:consumer).and_return(consumer)
 
       @linkedin.authorize_from_access('atoken', 'asecret')
     end
 
-    should "retrieve a profile for the authenticated user" do
+    it "retrieve a profile for the authenticated user" do
       stub_get("/v1/people/~", "profile_full.xml")
       p = @linkedin.profile
       p.first_name.should == 'Wynn'
       p.last_name.should  == 'Netherland'
     end
     
-    should "retrieve location information" do
+    it "retrieve location information" do
       stub_get("/v1/people/~", "profile_full.xml")
       p = @linkedin.profile
       p.location.name.should    == 'Dallas/Fort Worth Area'
       p.location.country.should == 'us'
     end
     
-    should "retrieve positions from a profile" do
+    it "retrieve positions from a profile" do
       stub_get("/v1/people/~", "profile_full.xml")
       p = @linkedin.profile
       p.positions.size.should == 4
@@ -41,7 +41,7 @@ class ClientTest < Test::Unit::TestCase
       hp.is_current.should  == 'false'
     end
 
-    should "retrieve education information from a profile" do
+    it "retrieve education information from a profile" do
       stub_get("/v1/people/~", "profile_full.xml")
       p = @linkedin.profile
       education = p.education.first
@@ -51,14 +51,14 @@ class ClientTest < Test::Unit::TestCase
       education.end_year.should    == 1998
     end
 
-    should "retrieve information about a profiles connections" do
+    it "retrieve information about a profiles connections" do
       stub_get("/v1/people/~", "profile_full.xml")
       p = @linkedin.profile
       p.connections.size.should == 146
       p.connections.first.first_name.should == "Ali"
     end
     
-    should "retrieve a profiles member_url_resources" do
+    it "retrieve a profiles member_url_resources" do
       stub_get("/v1/people/~", "profile_full.xml")
       p = @linkedin.profile
       p.member_url_resources.size.should == 2
@@ -66,7 +66,7 @@ class ClientTest < Test::Unit::TestCase
       p.member_url_resources.first.name.should == 'My Company'
     end
     
-    should "retrieve a profiles connections api_standard_profile_request" do
+    it "retrieve a profiles connections api_standard_profile_request" do
       stub_get("/v1/people/~", "profile_full.xml")
       p = @linkedin.profile
       p1 = p.connections.first
@@ -75,39 +75,39 @@ class ClientTest < Test::Unit::TestCase
       p1.api_standard_profile_request.headers[:value].should == 'name:lui9'
     end
 
-    should "retrieve a profile for a member by id" do
+    it "retrieve a profile for a member by id" do
       stub_get("/v1/people/id=gNma67_AdI", "profile.xml")
       p = @linkedin.profile(:id => "gNma67_AdI")
       p.first_name.should == 'Wynn'
     end
 
-    should "retrieve a site_standard_profile_request" do
+    it "retrieve a site_standard_profile_request" do
       stub_get("/v1/people/~", "profile.xml")
       p = @linkedin.profile
       p.site_standard_profile_request.should == "http://www.linkedin.com/profile?viewProfile=&key=3559698&authToken=yib-&authType=name"
     end
 
-    should "retrieve a profile for a member by url" do
+    it "retrieve a profile for a member by url" do
       stub_get("/v1/people/url=http%3A%2F%2Fwww.linkedin.com%2Fin%2Fnetherland", "profile.xml")
       p = @linkedin.profile(:url => "http://www.linkedin.com/in/netherland")
       p.last_name.should == 'Netherland'
     end
 
-    should "accept field selectors when retrieving a profile" do
+    it "accept field selectors when retrieving a profile" do
       stub_get("/v1/people/~:(first-name,last-name)", "profile.xml")
       p = @linkedin.profile(:fields => [:first_name, :last_name])
       p.first_name.should == 'Wynn'
       p.last_name.should == 'Netherland'
     end
 
-    should "retrieve connections for the authenticated user" do
+    it "retrieve connections for the authenticated user" do
       stub_get("/v1/people/~/connections", "connections.xml")
       cons = @linkedin.connections
       cons.size.should == 146
       cons.last.last_name.should == 'Yuchnewicz'
     end
 
-    should "perform a search by keyword" do
+    it "perform a search by keyword" do
       stub_get("/v1/people?keywords=github", "search.xml")
       results = @linkedin.search(:keywords => 'github')
       results.start.should == 0
@@ -116,7 +116,7 @@ class ClientTest < Test::Unit::TestCase
       results.profiles.first.last_name.should  == 'Inglis'
     end
 
-    should "perform a search by multiple keywords" do
+    it "perform a search by multiple keywords" do
       stub_get("/v1/people?keywords=ruby+rails", "search.xml")
       results = @linkedin.search(:keywords => ["ruby", "rails"])
       results.start.should == 0
@@ -125,7 +125,7 @@ class ClientTest < Test::Unit::TestCase
       results.profiles.first.last_name.should  == 'Inglis'
     end
 
-    should "perform a search by name" do
+    it "perform a search by name" do
       stub_get("/v1/people?name=Zach+Inglis", "search.xml")
       results = @linkedin.search(:name => "Zach Inglis")
       results.start.should == 0
@@ -134,22 +134,22 @@ class ClientTest < Test::Unit::TestCase
       results.profiles.first.last_name.should  == 'Inglis'
     end
 
-    should "update a user's current status" do
+    it "update a user's current status" do
       stub_put("/v1/people/~/current-status", "blank.xml")
       @linkedin.update_status("Testing out the LinkedIn API")
     end
 
-    should "clear a user's current status" do
+    it "clear a user's current status" do
       stub_delete("/v1/people/~/current-status", "blank.xml")
       @linkedin.clear_status
     end
 
-    should "retrieve the authenticated user's current status" do
+    it "retrieve the authenticated user's current status" do
       stub_get("/v1/people/~/current-status", "status.xml")
       @linkedin.current_status.should == "New blog post: What makes a good API wrapper? http://wynnnetherland.com/2009/11/what-makes-a-good-api-wrapper/"
     end
 
-    should "retrieve status updates for the authenticated user's network" do
+    it "retrieve status updates for the authenticated user's network" do
       stub_get("/v1/people/~/network?type=STAT", "network_statuses.xml")
       stats = @linkedin.network_statuses
       stats.updates.first.timestamp.should == 1259179809524
@@ -159,21 +159,20 @@ class ClientTest < Test::Unit::TestCase
       stats.updates.first.profile.connections.first.last_name.should == 'Varone'
     end
 
-    should "retrieve network updates" do
+    it "retrieve network updates" do
       stub_get("/v1/people/~/network?type=PICT", "picture_updates.xml")
       stats = @linkedin.network_updates(:type => "PICT")
       stats.updates.size.should == 4
       stats.updates.last.profile.headline.should == "Creative Director for Intridea"
     end
 
-    should "send a message to recipients" do
+    it "send a message to recipients" do
       stub_post("/v1/people/~/mailbox", "mailbox_items.xml")
       recipients = ["/people/~", "/people/abcdefg"]
       subject    = "Congratulations on your new position."
       body       = "You're certainly the best person for the job!"
 
-      @linkedin.send_message(subject, body, recipients).should == "200"
+      @linkedin.send_message(subject, body, recipients) == "200"
     end
-
   end
 end

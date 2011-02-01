@@ -10,7 +10,7 @@ begin
     gem.email = "wynn.netherland@gmail.com"
     gem.homepage = "http://github.com/pengwynn/linkedin"
     gem.authors = ["Wynn Netherland"]
-    gem.files   = FileList["[A-Z]*", "{lib,test}/**/*"]
+    gem.files   = FileList["[A-Z]*", "{lib,spec}/**/*"]
     
     
     gem.add_dependency('oauth', '~> 0.3.5')
@@ -34,20 +34,20 @@ rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
 
-require 'rake/testtask'
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'test'
-  test.ruby_opts << '-rubygems'
-  test.pattern = 'test/**/*_test.rb'
-  test.verbose = true
+require 'rake'
+require 'rspec/core/rake_task'
+
+desc "Run all examples"
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.pattern = "spec/**/**/*_spec.rb"
 end
 
 begin
   require 'rcov/rcovtask'
-  Rcov::RcovTask.new do |test|
-    test.libs << 'test'
-    test.pattern = 'test/**/test_*.rb'
-    test.verbose = true
+  Rcov::RcovTask.new do |spec|
+    spec.libs << 'spec'
+    spec.pattern = 'spec/**/spec_*.rb'
+    spec.verbose = true
   end
 rescue LoadError
   task :rcov do
@@ -55,9 +55,9 @@ rescue LoadError
   end
 end
 
-task :test => :check_dependencies
+task :test #=> :check_dependencies
 
-task :default => :test
+task :default => :spec
 
 require 'rake/rdoctask'
 Rake::RDocTask.new do |rdoc|
